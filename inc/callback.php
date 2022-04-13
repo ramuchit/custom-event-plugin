@@ -22,20 +22,19 @@ if(isset($_GET['code'])) {
     $calendar_id = 'primary';
     $event_title = $_SESSION['event_post_title'] ;
 
-// Event starting & finishing at a specific time
-    // $full_day_event = 0;
-    // $event_time = ['start_time' => '2021-12-15T13:00:00', 'end_time' => '2021-12-15T13:15:00'];
+    // Event starting & finishing at a specific time
 
-// Full day event
+    // $full_day_event = 0;
+    // $event_time = ['start_time' => '2022-04-15T13:00:00', 'end_time' => '2021-04-15T13:15:00'];
+
+    // Full day event
     $full_day_event = 1;
     $event_time = ['event_date' => $_SESSION['event_post_date']];
 
-// Create event on primary calendar
+    // Create event on primary calendar
     $event_id = $capi->CreateCalendarEvent($calendar_id, $event_title, $full_day_event, $event_time, $user_timezone, $data['access_token']);
 
-    echo '<h3>New event added</h3>';
-    echo 'event Id:-'.$event_id;
-    sleep(2);
+    // echo 'event Id:-'.$event_id;
     $_SESSION['event_post_message'] = $_SESSION['event_post_title'].' added in your google calendar on '.$_SESSION['event_post_date'];
     unset($_SESSION['event_post_title']);
     unset($_SESSION['event_post_date']);
