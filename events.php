@@ -13,8 +13,6 @@ if(!session_id())
 
 require_once(plugin_dir_path(__FILE__).'config/config.php');
 require_once(plugin_dir_path(__FILE__).'inc/post_type.php');
-require_once(plugin_dir_path(__FILE__).'inc/shortcode.php');
-require_once(plugin_dir_path(__FILE__).'inc/page.php');
 require_once(plugin_dir_path(__FILE__).'inc/callback.php');
 
 

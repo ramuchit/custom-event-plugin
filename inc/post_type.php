@@ -12,7 +12,16 @@ class CustomPostType {
 
         //Hook for saving custom meta data
         add_action( 'save_post', array($this,'save_custom_event_meta_box_data'));
-         
+        
+        // For creating a custom archive page
+        add_filter('archive_template',array($this,'get_event_custom_post_type_template'));
+
+        // To add meta query for custom_event
+        add_filter( 'pre_get_posts', array($this,'custom_event_post_data_callback' ));
+
+        //add custom css
+        add_action('wp_head',array($this,'add_custom_css'));
+
     }
 
     public function custom_post_type_custom_event() {
@@ -112,6 +121,48 @@ class CustomPostType {
         update_post_meta( $post_id, '_custom_event_location', $custom_event_location );
         update_post_meta( $post_id, '_custom_event_url', $custom_event_url );
     }
+
+    public function get_event_custom_post_type_template($archive_template){
+        global $post;
+        if(is_post_type_archive('custom_event')){
+            $archive_template = plugin_dir_path(__FILE__).'../templates/custom_event_template.php';
+        }
+        return $archive_template;
+    }
+
+    public function custom_event_post_data_callback( $query ) {
+       
+        if ($query->is_post_type_archive('custom_event')) {
+            $query->set( 'orderby', 'meta_value' );
+            $query->set( 'meta_key', '_custom_event_date' );
+            $query->set( 'order', 'ASC' );
+        }
+    }
+
+    public function add_custom_css(){ 
+        ?>
+            <style>
+              .grid-container {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                background-color: #2196F3;
+                padding: 10px;
+              }
+              .grid-item {
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 20px;
+                font-size: 15px;
+                text-align: center;
+              }
+              .wp-container-7 > * {
+                max-width: 100% !important;
+              }
+            </style>
+        <?php
+    }
+
+
 
 }
 
